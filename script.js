@@ -73,6 +73,22 @@ function drawRocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) 
     Canvas.restore();
 }
 
+function drawCircle(Canvas, x, y, radius, innerColor, borderColor, borderWidth) {
+    // Draw the inner circle
+    Canvas.fillStyle = innerColor;
+    Canvas.beginPath();
+    Canvas.arc(x, y, radius, 0, Math.PI * 2);
+    Canvas.fill();
+
+    // Draw the circle border
+    Canvas.strokeStyle = borderColor;
+    Canvas.lineWidth = borderWidth;
+    Canvas.beginPath();
+    Canvas.arc(x, y, radius, 0, Math.PI * 2);
+    Canvas.stroke();
+}
+
+
 
 
 
@@ -156,8 +172,9 @@ function drawLightBulb(Canvas, x, y, radius) {
 drawCurvedTriangle(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
 drawRocketMid(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
 drawRocketEnd(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
+drawCircle(Canvas, 430, 320, 15, '#ced0cb','#c5c7c2',  5);
 
 drawPlanet(Canvas, 350, 250, 25, '#1E90FF', '#8A2BE2',Math.PI / -8);
 drawPlanet(Canvas, 500, 400, 20, '#7b0c2b', '#a62e30',Math.PI/8);
-drawTick(Canvas, 250, 300, 20, Math.PI/-5);
+drawTick(Canvas, 280, 300, 20, Math.PI/-5);
 drawLightBulb(Canvas, 500, 330, 20);
