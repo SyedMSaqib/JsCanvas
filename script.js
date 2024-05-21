@@ -95,16 +95,16 @@ function Circle(Canvas, x, y, radius, innerColor, borderColor, borderWidth) {
 }
 
 function RocketWings(Canvas, x, y, width, height, curveAmount, rotationAngle) {
-    // Save the current canvas state
+
     
     Canvas.save();
     
 
-    // Translate canvas to center of the triangle
+    
     Canvas.translate(x + width / 2, y + height / 2);
-    // Apply rotation
+    
     Canvas.rotate(rotationAngle);
-    // Translate back
+  
     Canvas.translate(-(x + width / 2), -(y + height / 2));
 
     Canvas.fillStyle = '#fda704'; 
@@ -117,7 +117,7 @@ function RocketWings(Canvas, x, y, width, height, curveAmount, rotationAngle) {
     Canvas.closePath();
     Canvas.fill();
 
-    // Restore the canvas state to its previous state
+    
     Canvas.restore();
 }
 
