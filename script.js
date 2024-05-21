@@ -2,7 +2,7 @@ const canvas = document.getElementById('myCanvas');
 const Canvas = canvas.getContext('2d');
 
 
-function drawCurvedTriangle(Canvas, x, y, width, height, curveAmount, rotationAngle) {
+function RocketHead(Canvas, x, y, width, height, curveAmount, rotationAngle) {
    
     Canvas.save();
 
@@ -24,7 +24,7 @@ function drawCurvedTriangle(Canvas, x, y, width, height, curveAmount, rotationAn
 
     Canvas.restore();
 }
-function drawRocketMid(Canvas, x, y, width, height, curveAmount, rotationAngle) {
+function RocketMid(Canvas, x, y, width, height, curveAmount, rotationAngle) {
     Canvas.save();
 
     Canvas.translate(x + width / 2, y + height / 2);
@@ -46,8 +46,11 @@ function drawRocketMid(Canvas, x, y, width, height, curveAmount, rotationAngle) 
     Canvas.restore();
 }
 
-function drawRocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) {
-    // Save the current canvas state
+function RocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) {
+    
+RocketWings(Canvas, 310, 340, 20, 70, 35,Math.PI / 2.4);
+RocketWings(Canvas, 355, 400, 20, 70, 35,Math.PI / 5.4);
+
     Canvas.save();
 
     Canvas.translate(x + width / 2, y + height / 2);
@@ -68,19 +71,22 @@ function drawRocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) 
     Canvas.bezierCurveTo(x + width, y + height, x + width, y + curveAmount, x + width / 2, y);
     Canvas.closePath();
     Canvas.fill();
+    
 
     
     Canvas.restore();
+    RocketWings(Canvas, 330, 370, 20, 70, 35,Math.PI / 4);
+
 }
 
-function drawCircle(Canvas, x, y, radius, innerColor, borderColor, borderWidth) {
-    // Draw the inner circle
+function Circle(Canvas, x, y, radius, innerColor, borderColor, borderWidth) {
+    
     Canvas.fillStyle = innerColor;
     Canvas.beginPath();
     Canvas.arc(x, y, radius, 0, Math.PI * 2);
     Canvas.fill();
 
-    // Draw the circle border
+    
     Canvas.strokeStyle = borderColor;
     Canvas.lineWidth = borderWidth;
     Canvas.beginPath();
@@ -88,12 +94,39 @@ function drawCircle(Canvas, x, y, radius, innerColor, borderColor, borderWidth) 
     Canvas.stroke();
 }
 
+function RocketWings(Canvas, x, y, width, height, curveAmount, rotationAngle) {
+    // Save the current canvas state
+    
+    Canvas.save();
+    
+
+    // Translate canvas to center of the triangle
+    Canvas.translate(x + width / 2, y + height / 2);
+    // Apply rotation
+    Canvas.rotate(rotationAngle);
+    // Translate back
+    Canvas.translate(-(x + width / 2), -(y + height / 2));
+
+    Canvas.fillStyle = '#fda704'; 
+    Canvas.beginPath();
+    Canvas.moveTo(x-1 + width / 2, y); 
+   
+    Canvas.bezierCurveTo(x, y + curveAmount, x, y + height, x + width / 2, y + height);
+    
+    Canvas.bezierCurveTo(x + width, y + height, x + width, y + curveAmount, x + width / 2, y);
+    Canvas.closePath();
+    Canvas.fill();
+
+    // Restore the canvas state to its previous state
+    Canvas.restore();
+}
 
 
 
 
 
-function drawPlanet(Canvas, x, y, radius, color1, color2, rotationAngle) {
+
+function Planet(Canvas, x, y, radius, color1, color2, rotationAngle) {
     
     Canvas.save();
 
@@ -123,7 +156,7 @@ function drawPlanet(Canvas, x, y, radius, color1, color2, rotationAngle) {
 }
 
 
-function drawTick(Canvas, x, y, radius, rotationAngle) {
+function Tick(Canvas, x, y, radius, rotationAngle) {
     
     Canvas.save();
 
@@ -153,9 +186,9 @@ function drawTick(Canvas, x, y, radius, rotationAngle) {
     Canvas.restore();
 }
 
-function drawLightBulb(Canvas, x, y, radius) {
+function LightBulb(Canvas, x, y, radius) {
    
-    Canvas.fillStyle = '#FFD700';
+    Canvas.fillStyle = '#fda704';
     Canvas.beginPath();
     Canvas.ellipse(x, y - radius * 0.3, radius, radius * 1.2, 0, 0, Math.PI * 2);
     Canvas.fill();
@@ -169,12 +202,12 @@ function drawLightBulb(Canvas, x, y, radius) {
 
 
 
-drawCurvedTriangle(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
-drawRocketMid(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
-drawRocketEnd(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
-drawCircle(Canvas, 430, 320, 15, '#ced0cb','#c5c7c2',  5);
+RocketHead(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
+RocketMid(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
 
-drawPlanet(Canvas, 350, 250, 25, '#1E90FF', '#8A2BE2',Math.PI / -8);
-drawPlanet(Canvas, 500, 400, 20, '#7b0c2b', '#a62e30',Math.PI/8);
-drawTick(Canvas, 280, 300, 20, Math.PI/-5);
-drawLightBulb(Canvas, 500, 330, 20);
+RocketEnd(Canvas, 350, 250, 100, 200, 35,Math.PI / 4);
+Circle(Canvas, 430, 320, 15, '#ced0cb','#c5c7c2',  5);
+Planet(Canvas, 350, 250, 25, '#1E90FF', '#8A2BE2',Math.PI / -8);
+Planet(Canvas, 500, 400, 20, '#7b0c2b', '#a62e30',Math.PI/8);
+Tick(Canvas, 280, 300, 20, Math.PI/-5);
+LightBulb(Canvas, 500, 330, 20);
