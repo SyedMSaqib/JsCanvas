@@ -240,8 +240,65 @@ function RocketTail(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, 
 
   Canvas.restore();
 }
+function Hand(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, fillColor) {
+  
+  Canvas.save();
+
+
+  Canvas.translate(x, y);
+ 
+  Canvas.rotate(rotationAngle);
+  
+  Canvas.translate(-x, -y);
+
+  const halfTopWidth = topWidth / 6;
+  const halfBottomWidth = bottomWidth / 8;
+  const topY = y - height / 4;
+  const bottomY = y + height / 4 ;
+  const curveAmount = 10; 
+
+ 
+  Canvas.fillStyle = fillColor;
+  Canvas.beginPath();
+  Canvas.moveTo(x - halfTopWidth, topY); 
+
+  Canvas.bezierCurveTo(
+      x - halfTopWidth + curveAmount, topY - curveAmount, 
+      x + halfTopWidth - curveAmount, topY - curveAmount, 
+      x + halfTopWidth, topY
+  );
+
+  Canvas.bezierCurveTo(
+      x + halfTopWidth + curveAmount, topY + curveAmount,
+      x + halfBottomWidth + curveAmount, bottomY - curveAmount,
+      x + halfBottomWidth, bottomY
+  );
+
+  
+  Canvas.bezierCurveTo(
+      x + halfBottomWidth - curveAmount, bottomY + curveAmount,
+      x - halfBottomWidth + curveAmount, bottomY + curveAmount,
+      x - halfBottomWidth, bottomY
+  );
+
+  
+  Canvas.bezierCurveTo(
+      x - halfBottomWidth - curveAmount, bottomY - curveAmount,
+      x - halfTopWidth - curveAmount, topY + curveAmount,
+      x - halfTopWidth, topY
+  );
+
+  Canvas.closePath();
+  Canvas.fill();
+
+ 
+
+
+  Canvas.restore();
+}
 
 function Finger(Canvas, x, y, width, height, curveAmount, rotationAngle) {
+  
   for (var i = 0; i < 4; i++) {
   Canvas.save();
 
@@ -270,7 +327,7 @@ function Finger(Canvas, x, y, width, height, curveAmount, rotationAngle) {
     // Translate back
     Canvas.translate(-(x + width / 2), -(y + height / 2));
 
-    Canvas.fillStyle = "#fda704";
+    Canvas.fillStyle = "#e69278";
     Canvas.beginPath();
 
     // Move to the starting point at the top middle
@@ -278,30 +335,78 @@ function Finger(Canvas, x, y, width, height, curveAmount, rotationAngle) {
 
     // Curve to the left side (mirrored)
     Canvas.bezierCurveTo(
-      x + width * 0.1, // control point 1 x (more inward from right edge)
-      y + curveAmount / 2, // control point 1 y (adjust for curve height)
-      x + width * 0.8, // control point 2 x (more inward from right edge)
-      y + height * 0.8, // control point 2 y (adjust for curve shape)
-      x + width, // end point x (right edge)
-      y + height // end point y (bottom edge)
+      x + width * 0.1, 
+      y + curveAmount / 2, 
+      x + width * 0.8, 
+      y + height * 0.8, 
+      x + width, 
+      y + height 
     );
 
-    // Curve to the right side (mirrored)
+  
     Canvas.bezierCurveTo(
-      x + width * 0.2, // control point 1 x (more inward from left edge)
-      y + height + curveAmount / 2, // control point 1 y (adjust for curve height)
-      x + width * 0.05, // control point 2 x (more inward from left edge)
-      y + height * 0.2, // control point 2 y (adjust for curve shape)
-      x + width / 2, // end point x (middle of the bottom edge)
-      y // end point y (top edge)
+      x + width * 0.2, 
+      y + height + curveAmount / 2, 
+      x + width * 0.05, 
+      y + height * 0.2, 
+      x + width / 2, 
+      y 
     );
 
     Canvas.closePath();
     Canvas.fill();
     
-    // Restore the canvas to its previous state
+    
     Canvas.restore();
   }
+}
+
+function HandBottom(Canvas, x, y, width, height, curveAmount) {
+  Canvas.save();
+
+  Canvas.fillStyle = "#e69278";
+  Canvas.beginPath();
+
+  // Start from the top-left
+  Canvas.moveTo(x, y);
+
+  // Draw the top side
+  Canvas.lineTo(x + width, y);
+
+  // Draw the top-right curve
+  Canvas.bezierCurveTo(
+    x + width + curveAmount / 2, y, // control point 1
+    x + width, y + curveAmount * 0.4, // control point 2
+    x + width, y + curveAmount // end point
+  );
+
+  // Draw the right side
+  Canvas.lineTo(x + width, y + height - curveAmount);
+
+  // Draw the bottom-right curve
+  Canvas.bezierCurveTo(
+    x + width, y + height - curveAmount * 0.4, // control point 1
+    x + width + curveAmount / 2, y + height, // control point 2
+    x + width, y + height // end point
+  );
+
+  // Draw the bottom side
+  Canvas.lineTo(x, y + height);
+
+  // Draw the left side
+  Canvas.lineTo(x, y + curveAmount);
+
+  // Draw the top-left curve
+  Canvas.bezierCurveTo(
+    x, y + curveAmount * 0.4, // control point 1
+    x - curveAmount / 2, y, // control point 2
+    x, y // end point
+  );
+
+  Canvas.closePath();
+  Canvas.fill();
+
+  Canvas.restore();
 }
 
 
@@ -309,6 +414,7 @@ function Finger(Canvas, x, y, width, height, curveAmount, rotationAngle) {
 
 
 
+Hand(Canvas, 397, 420, 100, 150, 100, Math.PI / 0.95, '#e69278');
 RocketHead(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
 RocketMid(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
 RocketEnd(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
@@ -318,3 +424,4 @@ Planet(Canvas, 500, 400, 20, "#7b0c2b", "#a62e30", Math.PI / 8);
 Tick(Canvas, 280, 300, 20, Math.PI / -5);
 LightBulb(Canvas, 500, 330, 20);
 Finger(Canvas, 370, 360, 30, 70, 35, Math.PI / 1);
+HandBottom(Canvas, 380, 420, 30, 70, 35);
