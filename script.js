@@ -47,6 +47,7 @@ function RocketMid(Canvas, x, y, width, height, curveAmount, rotationAngle) {
 function RocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) {
   RocketWings(Canvas, 310, 340, 20, 70, 35, Math.PI / 2.4);
   RocketWings(Canvas, 355, 400, 20, 70, 35, Math.PI / 5.4);
+  drawCurvedIsoscelesTrapezoidWithLines(Canvas, 315, 435, 100, 150, 100, Math.PI / 4, '#D3D3D3', '#000000', 5, 20);
 
   Canvas.save();
 
@@ -69,7 +70,10 @@ function RocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) {
   Canvas.fill();
 
   Canvas.restore();
+  
+
   RocketWings(Canvas, 330, 370, 20, 70, 35, Math.PI / 4);
+  
 }
 
 function Circle(Canvas, x, y, radius, innerColor, borderColor, borderWidth) {
@@ -168,6 +172,80 @@ function LightBulb(Canvas, x, y, radius) {
   Canvas.arc(x, y + radius * 0.8, radius * 0.4, 0, Math.PI);
   Canvas.fill();
 }
+
+function drawCurvedIsoscelesTrapezoidWithLines(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, fillColor, lineColor, lineWidth, lineOffset) {
+  // Save the current canvas state
+  Canvas.save();
+
+  // Translate canvas to the center of the trapezoid
+  Canvas.translate(x, y);
+  // Apply rotation
+  Canvas.rotate(rotationAngle);
+  // Translate back to the original position
+  Canvas.translate(-x, -y);
+
+  // Calculate the coordinates of the trapezoid
+  const halfTopWidth = topWidth / 6;
+  const halfBottomWidth = bottomWidth / 4.5;
+  const topY = y - height / 4;
+  const bottomY = y + height / 4 ;
+  const curveAmount = 10; // Adjust this value to control the curve amount
+
+  // Draw the trapezoid with curved edges
+  Canvas.fillStyle = fillColor;
+  Canvas.beginPath();
+  Canvas.moveTo(x - halfTopWidth, topY); // Top left corner
+
+  // Top side with outward curve
+  Canvas.bezierCurveTo(
+      x - halfTopWidth + curveAmount, topY - curveAmount, 
+      x + halfTopWidth - curveAmount, topY - curveAmount, 
+      x + halfTopWidth, topY
+  );
+
+  // Top right side with outward curve
+  Canvas.bezierCurveTo(
+      x + halfTopWidth + curveAmount, topY + curveAmount,
+      x + halfBottomWidth + curveAmount, bottomY - curveAmount,
+      x + halfBottomWidth, bottomY
+  );
+
+  // Bottom side with outward curve
+  Canvas.bezierCurveTo(
+      x + halfBottomWidth - curveAmount, bottomY + curveAmount,
+      x - halfBottomWidth + curveAmount, bottomY + curveAmount,
+      x - halfBottomWidth, bottomY
+  );
+
+  // Bottom left side with outward curve
+  Canvas.bezierCurveTo(
+      x - halfBottomWidth - curveAmount, bottomY - curveAmount,
+      x - halfTopWidth - curveAmount, topY + curveAmount,
+      x - halfTopWidth, topY
+  );
+
+  Canvas.closePath();
+  Canvas.fill();
+
+  // Draw three bold parallel lines from top to bottom
+  Canvas.strokeStyle = lineColor;
+  Canvas.lineWidth = lineWidth-2;
+
+  // Calculate the positions for the lines
+  const numLines = 3;
+  const spacing = (bottomWidth - topWidth) / (numLines + 1) ;
+  for (let i = 1; i <= numLines; i++) {
+      const offsetX = halfTopWidth + i * spacing - (spacing * (numLines + 1) / 2) - lineOffset;
+      Canvas.beginPath();
+      Canvas.moveTo(x + offsetX, topY);
+      Canvas.lineTo(x + offsetX + (bottomWidth - topWidth) * (i - 1) / (numLines + 1), bottomY);
+      Canvas.stroke();
+  }
+
+  // Restore the canvas state to its previous state
+  Canvas.restore();
+}
+
 
 RocketHead(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
 RocketMid(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
