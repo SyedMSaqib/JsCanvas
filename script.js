@@ -241,13 +241,80 @@ function RocketTail(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, 
   Canvas.restore();
 }
 
+function Finger(Canvas, x, y, width, height, curveAmount, rotationAngle) {
+  for (var i = 0; i < 4; i++) {
+  Canvas.save();
+
+    if (i === 0) {
+      Canvas.translate(x + width / 2, y + height / 1.6);
+      Canvas.rotate(rotationAngle);
+    }
+    else if (i === 1) {
+      Canvas.translate(x + width / 1.3, y + height / 2);
+      Canvas.rotate(rotationAngle+0.27);
+
+    }
+    else if (i === 2) {
+      Canvas.translate(x + width / 0.95, y + height / 2);
+      Canvas.rotate(rotationAngle+0.56);
+
+    }
+    else if (i === 3) {
+      Canvas.translate(x + width / 0.8, y + height / 1.6);
+      Canvas.rotate(rotationAngle+0.8);
+
+    }
+    
+    // Rotate the canvas by the given angle
+
+    // Translate back
+    Canvas.translate(-(x + width / 2), -(y + height / 2));
+
+    Canvas.fillStyle = "#fda704";
+    Canvas.beginPath();
+
+    // Move to the starting point at the top middle
+    Canvas.moveTo(x + width / 2, y);
+
+    // Curve to the left side (mirrored)
+    Canvas.bezierCurveTo(
+      x + width * 0.1, // control point 1 x (more inward from right edge)
+      y + curveAmount / 2, // control point 1 y (adjust for curve height)
+      x + width * 0.8, // control point 2 x (more inward from right edge)
+      y + height * 0.8, // control point 2 y (adjust for curve shape)
+      x + width, // end point x (right edge)
+      y + height // end point y (bottom edge)
+    );
+
+    // Curve to the right side (mirrored)
+    Canvas.bezierCurveTo(
+      x + width * 0.2, // control point 1 x (more inward from left edge)
+      y + height + curveAmount / 2, // control point 1 y (adjust for curve height)
+      x + width * 0.05, // control point 2 x (more inward from left edge)
+      y + height * 0.2, // control point 2 y (adjust for curve shape)
+      x + width / 2, // end point x (middle of the bottom edge)
+      y // end point y (top edge)
+    );
+
+    Canvas.closePath();
+    Canvas.fill();
+    
+    // Restore the canvas to its previous state
+    Canvas.restore();
+  }
+}
+
+
+
+
+
 
 RocketHead(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
 RocketMid(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
-
 RocketEnd(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
 Circle(Canvas, 430, 320, 15, "#D8D8D8", "#c5c7c2", 5);
 Planet(Canvas, 350, 250, 25, "#1E90FF", "#8A2BE2", Math.PI / -8);
 Planet(Canvas, 500, 400, 20, "#7b0c2b", "#a62e30", Math.PI / 8);
 Tick(Canvas, 280, 300, 20, Math.PI / -5);
 LightBulb(Canvas, 500, 330, 20);
+Finger(Canvas, 370, 360, 30, 70, 35, Math.PI / 1);
