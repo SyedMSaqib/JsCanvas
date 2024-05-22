@@ -45,6 +45,7 @@ function RocketMid(Canvas, x, y, width, height, curveAmount, rotationAngle) {
 }
 
 function RocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) {
+  
   RocketWings(Canvas, 310, 340, 20, 70, 35, Math.PI / 2.4);
   RocketWings(Canvas, 355, 400, 20, 70, 35, Math.PI / 5.4);
   RocketTail(Canvas, 315, 435, 100, 150, 100, Math.PI / 4, '#D3D3D3', '#000000', 5, 20);
@@ -73,6 +74,8 @@ function RocketEnd(Canvas, x, y, width, height, curveAmount, rotationAngle) {
   
 
   RocketWings(Canvas, 330, 370, 20, 70, 35, Math.PI / 4);
+HandMid(Canvas, 397, 420, 100, 150, 100, Math.PI / 0.95, '#e69278');
+
   
 }
 
@@ -240,7 +243,7 @@ function RocketTail(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, 
 
   Canvas.restore();
 }
-function Hand(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, fillColor) {
+function HandMid(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, fillColor) {
   
   Canvas.save();
 
@@ -255,7 +258,7 @@ function Hand(Canvas, x, y, topWidth, bottomWidth, height, rotationAngle, fillCo
   const halfBottomWidth = bottomWidth / 8;
   const topY = y - height / 4;
   const bottomY = y + height / 4 ;
-  const curveAmount = 10; 
+  const curveAmount = 5; 
 
  
   Canvas.fillStyle = fillColor;
@@ -414,7 +417,6 @@ function HandBottom(Canvas, x, y, width, height, curveAmount) {
 
 
 
-Hand(Canvas, 397, 420, 100, 150, 100, Math.PI / 0.95, '#e69278');
 RocketHead(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
 RocketMid(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
 RocketEnd(Canvas, 350, 250, 100, 200, 35, Math.PI / 4);
